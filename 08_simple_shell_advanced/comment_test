@@ -2,7 +2,7 @@
 #
 # Test if the shell handles the # character
 
-command="/bin/ls ## -l"
+command="/bin/ls # -l"
 tmp_file="checker_tmp_file_$RANDOM"
 
 # clean up
