@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# run ls with spaces everywhere
+
+command="exit      
+exit               
+             exit     
+ exit     "
+tmp_file="checker_tmp_file_$RANDOM"
+save_file=`echo $BASH_SOURCE | sed -e 's/\.\///g' -e 's/\//#/g'`
+
+# clean up
+stop_shell
+rm -f $tmp_file
+
+# create a pseudo random file
+touch $tmp_file
+# send commands
+$ECHO "$command" | $SHELL > $OUTPUTFILE 2> $ERROROUTPUTFILE &
+
+# wait a little bit
+$SLEEP $SLEEPSECONDS
+
+# copy saved output for debugging
+cat $OUTPUTFILE > "$SAVEOUTPUTDIR/$save_file"
+
+# check the result
+res=`$CAT "$OUTPUTFILE" | wc -c`
+if [ "$res" == "0" ]; then
+	   print_ok
+else
+	   print_ko
+fi
+
+# clean up
+stop_shell
+$RM -f $tmp_file
